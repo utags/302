@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>URL Redirect</title>
+  </head>
+  <body>
+    <div id="message"></div>
+    <script>
+      (function () {
+        var href = window.location.href;
+        var originWithSlash = window.location.origin + "/";
+        var rest = href.indexOf(originWithSlash) === 0
+          ? href.substring(originWithSlash.length)
+          : href;
+        rest = rest.trim();
+        var targetString = "https://" + rest;
+        var target;
+        try {
+          target = new URL(targetString);
+        } catch (e) {
+          document.getElementById("message").textContent =
+            "Target URL is not a valid URL.";
+          return;
+        }
+        if (!target.hostname) {
+          document.getElementById("message").textContent =
+            "Target URL is not a valid URL.";
+          return;
+        }
+        // window.location.href = target.href;
+        location.replace(target.href);
+      })();
+    </script>
+  </body>
+</html>
